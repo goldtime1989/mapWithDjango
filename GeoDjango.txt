@@ -1,0 +1,687 @@
+pcbetadeMac-2:geodjango Zhao$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions, world
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying sessions.0001_initial... OK
+  Applying world.0001_initial... OK
+pcbetadeMac-2:geodjango Zhao$ python manage.py shell
+Python 2.7.13 (default, Dec 17 2016, 23:03:43) 
+[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> import os
+>>> import world
+>>> world_shp = os.path.abspath(os.path.join(os.path.dirname(world.__file__),'data', 'TM_WORLD_BORDERS-0.3.shp'))
+>>> from django.contrib.gis.gdal import DataSource
+>>> ds = DataSource(world_shp)
+>>> print(ds)
+/Users/viktor/Documents/Web Development/Django/geodjango/world/data/TM_WORLD_BORDERS-0.3.shp (ESRI Shapefile)
+>>> print(len(ds))
+1
+>>> lyr = ds[0]
+>>> print(lyr)
+TM_WORLD_BORDERS-0.3
+>>> print(lyr.geom_type)
+Polygon
+>>> print(len(lyr))
+246
+>>> srs = lyr.srs
+>>> print(srs)\
+... 
+KeyboardInterrupt
+>>> print(srs)
+GEOGCS["GCS_WGS_1984",
+    DATUM["WGS_1984",
+        SPHEROID["WGS_84",6378137.0,298.257223563]],
+    PRIMEM["Greenwich",0.0],
+    UNIT["Degree",0.0174532925199433]]
+>>> srs.proj4
+u'+proj=longlat +datum=WGS84 +no_defs '
+>>> print(lyr.fields)
+[u'FIPS', u'ISO2', u'ISO3', u'UN', u'NAME', u'AREA', u'POP2005', u'REGION', u'SUBREGION', u'LON', u'LAT']
+>>> [fld.__name__ for fld in lyr.field_types]
+['OFTString', 'OFTString', 'OFTString', 'OFTInteger', 'OFTString', 'OFTInteger', 'OFTInteger', 'OFTInteger', 'OFTInteger', 'OFTReal', 'OFTReal']
+>>> for feat in lyr:
+... print(feat.get('NAME'), feat.geom.num_points)
+  File "<console>", line 2
+    print(feat.get('NAME'), feat.geom.num_points)
+        ^
+IndentationError: expected an indented block
+>>> for feat in lyr:
+...     print(feat.get('NAME'), feat.geom.num_points)
+... 
+(u'Antigua and Barbuda', 48)
+(u'Algeria', 1241)
+(u'Azerbaijan', 871)
+(u'Albania', 337)
+(u'Armenia', 418)
+(u'Angola', 1113)
+(u'American Samoa', 72)
+(u'Argentina', 3781)
+(u'Australia', 8340)
+(u'Bahrain', 111)
+(u'Barbados', 49)
+(u'Bermuda', 60)
+(u'Bahamas', 1002)
+(u'Bangladesh', 1935)
+(u'Belize', 283)
+(u'Bosnia and Herzegovina', 399)
+(u'Bolivia', 1026)
+(u'Burma', 3147)
+(u'Benin', 383)
+(u'Solomon Islands', 1389)
+(u'Brazil', 7267)
+(u'Bulgaria', 564)
+(u'Brunei Darussalam', 150)
+(u'Canada', 55563)
+(u'Cambodia', 776)
+(u'Sri Lanka', 457)
+(u'Congo', 1056)
+(u'Democratic Republic of the Congo', 2201)
+(u'Burundi', 257)
+(u'China', 9019)
+(u'Afghanistan', 1298)
+(u'Bhutan', 360)
+(u'Chile', 11490)
+(u'Cayman Islands', 67)
+(u'Cameroon', 1068)
+(u'Chad', 728)
+(u'Comoros', 122)
+(u'Colombia', 1953)
+(u'Costa Rica', 393)
+(u'Central African Republic', 1100)
+(u'Cuba', 1359)
+(u'Cape Verde', 179)
+(u'Cook Islands', 198)
+(u'Cyprus', 187)
+(u'Denmark', 1608)
+(u'Djibouti', 184)
+(u'Dominica', 36)
+(u'Dominican Republic', 473)
+(u'Ecuador', 1184)
+(u'Egypt', 1039)
+(u'Ireland', 1028)
+(u'Equatorial Guinea', 190)
+(u'Estonia', 735)
+(u'Eritrea', 693)
+(u'El Salvador', 290)
+(u'Ethiopia', 920)
+(u'Austria', 596)
+(u'Czech Republic', 520)
+(u'French Guiana', 336)
+(u'Finland', 1968)
+(u'Fiji', 911)
+(u'Falkland Islands (Malvinas)', 672)
+(u'Micronesia, Federated States of', 237)
+(u'French Polynesia', 668)
+(u'France', 2007)
+(u'Gambia', 310)
+(u'Gabon', 878)
+(u'Georgia', 505)
+(u'Ghana', 562)
+(u'Grenada', 55)
+(u'Greenland', 21396)
+(u'Germany', 2157)
+(u'Guam', 55)
+(u'Greece', 3204)
+(u'Guatemala', 301)
+(u'Guinea', 928)
+(u'Guyana', 748)
+(u'Haiti', 436)
+(u'Honduras', 770)
+(u'Croatia', 1365)
+(u'Hungary', 616)
+(u'Iceland', 1466)
+(u'India', 5626)
+(u'Iran (Islamic Republic of)', 2193)
+(u'Israel', 281)
+(u'Italy', 2317)
+(u"Cote d'Ivoire", 906)
+(u'Iraq', 648)
+(u'Japan', 4450)
+(u'Jamaica', 178)
+(u'Jordan', 153)
+(u'Kenya', 480)
+(u'Kyrgyzstan', 1167)
+(u"Korea, Democratic People's Republic of", 777)
+(u'Kiribati', 700)
+(u'Korea, Republic of', 1178)
+(u'Kuwait', 203)
+(u'Kazakhstan', 3682)
+(u"Lao People's Democratic Republic", 1174)
+(u'Lebanon', 172)
+(u'Latvia', 535)
+(u'Belarus', 996)
+(u'Lithuania', 565)
+(u'Liberia', 429)
+(u'Slovakia', 403)
+(u'Liechtenstein', 28)
+(u'Libyan Arab Jamahiriya', 757)
+(u'Madagascar', 1114)
+(u'Martinique', 32)
+(u'Mongolia', 1881)
+(u'Montserrat', 19)
+(u'The former Yugoslav Republic of Macedonia', 219)
+(u'Mali', 1026)
+(u'Morocco', 769)
+(u'Mauritius', 72)
+(u'Mauritania', 623)
+(u'Malta', 44)
+(u'Oman', 753)
+(u'Maldives', 704)
+(u'Mexico', 4134)
+(u'Malaysia', 2036)
+(u'Mozambique', 1460)
+(u'Malawi', 603)
+(u'New Caledonia', 570)
+(u'Niue', 19)
+(u'Niger', 570)
+(u'Aruba', 19)
+(u'Anguilla', 21)
+(u'Belgium', 381)
+(u'Hong Kong', 88)
+(u'Northern Mariana Islands', 243)
+(u'Faroe Islands', 210)
+(u'Andorra', 29)
+(u'Gibraltar', 10)
+(u'Isle of Man', 42)
+(u'Luxembourg', 84)
+(u'Macau', 11)
+(u'Monaco', 15)
+(u'Palestine', 139)
+(u'Montenegro', 268)
+(u'Mayotte', 51)
+(u'\xc5land Islands', 164)
+(u'Norfolk Island', 12)
+(u'Cocos (Keeling) Islands', 17)
+(u'Antarctica', 24893)
+(u'Bouvet Island', 28)
+(u'French Southern and Antarctic Lands', 592)
+(u'Heard Island and McDonald Islands', 48)
+(u'British Indian Ocean Territory', 123)
+(u'Christmas Island', 11)
+(u'United States Minor Outlying Islands', 77)
+(u'Vanuatu', 796)
+(u'Nigeria', 1201)
+(u'Netherlands', 1054)
+(u'Norway', 8396)
+(u'Nepal', 643)
+(u'Nauru', 19)
+(u'Suriname', 447)
+(u'Nicaragua', 589)
+(u'New Zealand', 2481)
+(u'Paraguay', 715)
+(u'Peru', 1696)
+(u'Pakistan', 1991)
+(u'Poland', 924)
+(u'Panama', 991)
+(u'Portugal', 768)
+(u'Papua New Guinea', 3038)
+(u'Guinea-Bissau', 705)
+(u'Qatar', 196)
+(u'Reunion', 44)
+(u'Romania', 975)
+(u'Republic of Moldova', 425)
+(u'Philippines', 4630)
+(u'Puerto Rico', 141)
+(u'Russia', 35822)
+(u'Rwanda', 250)
+(u'Saudi Arabia', 1051)
+(u'Saint Kitts and Nevis', 55)
+(u'Seychelles', 135)
+(u'South Africa', 1536)
+(u'Lesotho', 175)
+(u'Botswana', 686)
+(u'Senegal', 841)
+(u'Slovenia', 301)
+(u'Sierra Leone', 367)
+(u'Singapore', 33)
+(u'Somalia', 760)
+(u'Spain', 1655)
+(u'Saint Lucia', 35)
+(u'Sudan', 1398)
+(u'Sweden', 2638)
+(u'Syrian Arab Republic', 412)
+(u'Switzerland', 545)
+(u'Trinidad and Tobago', 120)
+(u'Thailand', 2304)
+(u'Tajikistan', 1070)
+(u'Tokelau', 41)
+(u'Tonga', 283)
+(u'Togo', 347)
+(u'Sao Tome and Principe', 42)
+(u'Tunisia', 762)
+(u'Turkey', 2186)
+(u'Tuvalu', 96)
+(u'Turkmenistan', 1554)
+(u'United Republic of Tanzania', 1037)
+(u'Uganda', 466)
+(u'United Kingdom', 3898)
+(u'Ukraine', 2782)
+(u'United States', 21318)
+(u'Burkina Faso', 501)
+(u'Uruguay', 574)
+(u'Uzbekistan', 1428)
+(u'Saint Vincent and the Grenadines', 63)
+(u'Venezuela', 2404)
+(u'British Virgin Islands', 61)
+(u'Viet Nam', 2594)
+(u'United States Virgin Islands', 120)
+(u'Namibia', 890)
+(u'Wallis and Futuna Islands', 39)
+(u'Samoa', 81)
+(u'Swaziland', 73)
+(u'Yemen', 667)
+(u'Zambia', 1061)
+(u'Zimbabwe', 623)
+(u'Indonesia', 15597)
+(u'Guadeloupe', 135)
+(u'Netherlands Antilles', 89)
+(u'United Arab Emirates', 448)
+(u'Timor-Leste', 142)
+(u'Pitcairn Islands', 51)
+(u'Palau', 140)
+(u'Marshall Islands', 241)
+(u'Saint Pierre and Miquelon', 92)
+(u'Saint Helena', 81)
+(u'San Marino', 24)
+(u'Turks and Caicos Islands', 104)
+(u'Western Sahara', 338)
+(u'Serbia', 652)
+(u'Holy See (Vatican City)', 4)
+(u'Svalbard', 3108)
+(u'Saint Martin', 15)
+(u'Saint Barthelemy', 14)
+(u'Guernsey', 18)
+(u'Jersey', 26)
+(u'South Georgia South Sandwich Islands', 338)
+(u'Taiwan', 363)
+>>> lyr[0:2]
+[<django.contrib.gis.gdal.feature.Feature object at 0x10d3affd0>, <django.contrib.gis.gdal.feature.Feature object at 0x10d3bf050>]
+>>> feat = lyr[234]
+>>> print(feat.get('NAME'))
+San Marino
+>>> geom = feat.geom
+>>> print(geom.wkt)
+POLYGON ((12.415798 43.957954,12.450554 43.979721,12.453888 43.981667,12.4625 43.984718,12.471666 43.986938,12.492777 43.989166,12.505554 43.988609,12.509998 43.986938,12.510277 43.982773,12.511665 43.943329,12.510555 43.939163,12.496387 43.923332,12.494999 43.914719,12.487778 43.90583,12.474443 43.897217,12.464722 43.895554,12.459166 43.896111,12.416388 43.904716,12.412222 43.906105,12.407822 43.913658,12.403889 43.926666,12.404999 43.948326,12.408888 43.954994,12.415798 43.957954))
+>>> from world import load
+>>> load.run()
+Saved: Antigua and Barbuda
+Saved: Algeria
+Saved: Azerbaijan
+Saved: Albania
+Saved: Armenia
+Saved: Angola
+Saved: American Samoa
+Saved: Argentina
+Saved: Australia
+Saved: Bahrain
+Saved: Barbados
+Saved: Bermuda
+Saved: Bahamas
+Saved: Bangladesh
+Saved: Belize
+Saved: Bosnia and Herzegovina
+Saved: Bolivia
+Saved: Burma
+Saved: Benin
+Saved: Solomon Islands
+Saved: Brazil
+Saved: Bulgaria
+Saved: Brunei Darussalam
+Saved: Canada
+Saved: Cambodia
+Saved: Sri Lanka
+Saved: Congo
+Saved: Democratic Republic of the Congo
+Saved: Burundi
+Saved: China
+Saved: Afghanistan
+Saved: Bhutan
+Saved: Chile
+Saved: Cayman Islands
+Saved: Cameroon
+Saved: Chad
+Saved: Comoros
+Saved: Colombia
+Saved: Costa Rica
+Saved: Central African Republic
+Saved: Cuba
+Saved: Cape Verde
+Saved: Cook Islands
+Saved: Cyprus
+Saved: Denmark
+Saved: Djibouti
+Saved: Dominica
+Saved: Dominican Republic
+Saved: Ecuador
+Saved: Egypt
+Saved: Ireland
+Saved: Equatorial Guinea
+Saved: Estonia
+Saved: Eritrea
+Saved: El Salvador
+Saved: Ethiopia
+Saved: Austria
+Saved: Czech Republic
+Saved: French Guiana
+Saved: Finland
+Saved: Fiji
+Saved: Falkland Islands (Malvinas)
+Saved: Micronesia, Federated States of
+Saved: French Polynesia
+Saved: France
+Saved: Gambia
+Saved: Gabon
+Saved: Georgia
+Saved: Ghana
+Saved: Grenada
+Saved: Greenland
+Saved: Germany
+Saved: Guam
+Saved: Greece
+Saved: Guatemala
+Saved: Guinea
+Saved: Guyana
+Saved: Haiti
+Saved: Honduras
+Saved: Croatia
+Saved: Hungary
+Saved: Iceland
+Saved: India
+Saved: Iran (Islamic Republic of)
+Saved: Israel
+Saved: Italy
+Saved: Cote d'Ivoire
+Saved: Iraq
+Saved: Japan
+Saved: Jamaica
+Saved: Jordan
+Saved: Kenya
+Saved: Kyrgyzstan
+Saved: Korea, Democratic People's Republic of
+Saved: Kiribati
+Saved: Korea, Republic of
+Saved: Kuwait
+Saved: Kazakhstan
+Saved: Lao People's Democratic Republic
+Saved: Lebanon
+Saved: Latvia
+Saved: Belarus
+Saved: Lithuania
+Saved: Liberia
+Saved: Slovakia
+Saved: Liechtenstein
+Saved: Libyan Arab Jamahiriya
+Saved: Madagascar
+Saved: Martinique
+Saved: Mongolia
+Saved: Montserrat
+Saved: The former Yugoslav Republic of Macedonia
+Saved: Mali
+Saved: Morocco
+Saved: Mauritius
+Saved: Mauritania
+Saved: Malta
+Saved: Oman
+Saved: Maldives
+Saved: Mexico
+Saved: Malaysia
+Saved: Mozambique
+Saved: Malawi
+Saved: New Caledonia
+Saved: Niue
+Saved: Niger
+Saved: Aruba
+Saved: Anguilla
+Saved: Belgium
+Saved: Hong Kong
+Saved: Northern Mariana Islands
+Saved: Faroe Islands
+Saved: Andorra
+Saved: Gibraltar
+Saved: Isle of Man
+Saved: Luxembourg
+Saved: Macau
+Saved: Monaco
+Saved: Palestine
+Saved: Montenegro
+Saved: Mayotte
+Saved: Ãland Islands
+Saved: Norfolk Island
+Saved: Cocos (Keeling) Islands
+Saved: Antarctica
+Saved: Bouvet Island
+Saved: French Southern and Antarctic Lands
+Saved: Heard Island and McDonald Islands
+Saved: British Indian Ocean Territory
+Saved: Christmas Island
+Saved: United States Minor Outlying Islands
+Saved: Vanuatu
+Saved: Nigeria
+Saved: Netherlands
+Saved: Norway
+Saved: Nepal
+Saved: Nauru
+Saved: Suriname
+Saved: Nicaragua
+Saved: New Zealand
+Saved: Paraguay
+Saved: Peru
+Saved: Pakistan
+Saved: Poland
+Saved: Panama
+Saved: Portugal
+Saved: Papua New Guinea
+Saved: Guinea-Bissau
+Saved: Qatar
+Saved: Reunion
+Saved: Romania
+Saved: Republic of Moldova
+Saved: Philippines
+Saved: Puerto Rico
+Saved: Russia
+Saved: Rwanda
+Saved: Saudi Arabia
+Saved: Saint Kitts and Nevis
+Saved: Seychelles
+Saved: South Africa
+Saved: Lesotho
+Saved: Botswana
+Saved: Senegal
+Saved: Slovenia
+Saved: Sierra Leone
+Saved: Singapore
+Saved: Somalia
+Saved: Spain
+Saved: Saint Lucia
+Saved: Sudan
+Saved: Sweden
+Saved: Syrian Arab Republic
+Saved: Switzerland
+Saved: Trinidad and Tobago
+Saved: Thailand
+Saved: Tajikistan
+Saved: Tokelau
+Saved: Tonga
+Saved: Togo
+Saved: Sao Tome and Principe
+Saved: Tunisia
+Saved: Turkey
+Saved: Tuvalu
+Saved: Turkmenistan
+Saved: United Republic of Tanzania
+Saved: Uganda
+Saved: United Kingdom
+Saved: Ukraine
+Saved: United States
+Saved: Burkina Faso
+Saved: Uruguay
+Saved: Uzbekistan
+Saved: Saint Vincent and the Grenadines
+Saved: Venezuela
+Saved: British Virgin Islands
+Saved: Viet Nam
+Saved: United States Virgin Islands
+Saved: Namibia
+Saved: Wallis and Futuna Islands
+Saved: Samoa
+Saved: Swaziland
+Saved: Yemen
+Saved: Zambia
+Saved: Zimbabwe
+Saved: Indonesia
+Saved: Guadeloupe
+Saved: Netherlands Antilles
+Saved: United Arab Emirates
+Saved: Timor-Leste
+Saved: Pitcairn Islands
+Saved: Palau
+Saved: Marshall Islands
+Saved: Saint Pierre and Miquelon
+Saved: Saint Helena
+Saved: San Marino
+Saved: Turks and Caicos Islands
+Saved: Western Sahara
+Saved: Serbia
+Saved: Holy See (Vatican City)
+Saved: Svalbard
+Saved: Saint Martin
+Saved: Saint Barthelemy
+Saved: Guernsey
+Saved: Jersey
+Saved: South Georgia South Sandwich Islands
+Saved: Taiwan
+>>> 
+KeyboardInterrupt
+>>> 
+[1]+  Stopped                 python manage.py shell
+pcbetadeMac-2:geodjango Zhao$ python manage.py ogrinspect world/data/TM_WORLD_BORDERS-0.3.shp WorldBorder \
+>     --srid=4326 --mapping --multi
+# This is an auto-generated Django model module created by ogrinspect.
+from django.contrib.gis.db import models
+
+class WorldBorder(models.Model):
+    fips = models.CharField(max_length=2)
+    iso2 = models.CharField(max_length=2)
+    iso3 = models.CharField(max_length=3)
+    un = models.IntegerField()
+    name = models.CharField(max_length=50)
+    area = models.IntegerField()
+    pop2005 = models.IntegerField()
+    region = models.IntegerField()
+    subregion = models.IntegerField()
+    lon = models.FloatField()
+    lat = models.FloatField()
+    geom = models.MultiPolygonField(srid=4326)
+
+# Auto-generated `LayerMapping` dictionary for WorldBorder model
+worldborder_mapping = {
+    'fips' : 'FIPS',
+    'iso2' : 'ISO2',
+    'iso3' : 'ISO3',
+    'un' : 'UN',
+    'name' : 'NAME',
+    'area' : 'AREA',
+    'pop2005' : 'POP2005',
+    'region' : 'REGION',
+    'subregion' : 'SUBREGION',
+    'lon' : 'LON',
+    'lat' : 'LAT',
+    'geom' : 'MULTIPOLYGON',
+}
+pcbetadeMac-2:geodjango Zhao$ python manage.py shell
+Python 2.7.13 (default, Dec 17 2016, 23:03:43) 
+[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> pnt_wkt = 'POINT(-95.3385 29.7245)'
+>>> from world.models import WorldBorder
+>>> WorldBorder.objects.filter(mpoly__contains=pnt_wkt)
+GDAL_ERROR 10: Pointer 'hDS' is NULL in 'GDALClose'.
+
+Exception django.contrib.gis.gdal.error.GDALException: GDALException('Unknown error code: "-1957583451"',) in <object repr() failed> ignored
+<QuerySet [<WorldBorder: United States>]>
+>>> from django.contrib.gis.geos import Point
+>>> pnt = Point(12.4604, 43.9420)
+>>> WorldBorder.objects.get(mpoly__intersects=pnt)
+<WorldBorder: San Marino>
+>>> from django.contrib.gis.geos import Point, GEOSGeometry
+>>> pnt = Point(954158.1, 4215137.1, srid=32140)
+>>> pnt = GEOSGeometry('SRID=32140;POINT(954158.1 4215137.1)')
+>>> qs = WorldBorder.objects.filter(mpoly__intersects=pnt)
+>>> print(qs.query)
+SELECT "world_worldborder"."id", "world_worldborder"."name", "world_worldborder"."area", "world_worldborder"."pop2005", "world_worldborder"."fips", "world_worldborder"."iso2", "world_worldborder"."iso3", "world_worldborder"."un", "world_worldborder"."region", "world_worldborder"."subregion", "world_worldborder"."lon", "world_worldborder"."lat", "world_worldborder"."mpoly" FROM "world_worldborder" WHERE ST_Intersects("world_worldborder"."mpoly", ST_Transform(ST_GeomFromEWKB('\001\001\000\000 \214}\000\0003333\\\036-AfffFX\024PA'::bytea), 4326))
+>>> 
+[2]+  Stopped                 python manage.py shell
+pcbetadeMac-2:geodjango Zhao$ python manage.py createsuperuser
+Username (leave blank to use 'zhao'): admin
+Email address: admin@admin.com
+Password: 
+Password (again): 
+Superuser created successfully.
+pcbetadeMac-2:geodjango Zhao$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 06, 2017 - 07:37:25
+Django version 1.10.4, using settings 'geodjango.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[06/Feb/2017 07:37:56] "GET /admin/ HTTP/1.1" 302 0
+[06/Feb/2017 07:37:56] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1653
+[06/Feb/2017 07:37:57] "GET /static/admin/css/login.css HTTP/1.1" 200 1203
+[06/Feb/2017 07:37:57] "GET /static/admin/css/base.css HTTP/1.1" 200 15937
+[06/Feb/2017 07:37:57] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[06/Feb/2017 07:37:57] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 80304
+[06/Feb/2017 07:37:57] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 81348
+Not Found: /favicon.ico
+[06/Feb/2017 07:37:57] "GET /favicon.ico HTTP/1.1" 404 1939
+[06/Feb/2017 07:38:03] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[06/Feb/2017 07:38:03] "GET /admin/ HTTP/1.1" 200 3440
+[06/Feb/2017 07:38:03] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 434
+[06/Feb/2017 07:38:03] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[06/Feb/2017 07:38:03] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[06/Feb/2017 07:38:03] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 82564
+[06/Feb/2017 07:38:06] "GET /admin/world/worldborder/ HTTP/1.1" 200 28009
+[06/Feb/2017 07:38:06] "GET /static/admin/js/core.js HTTP/1.1" 200 7976
+[06/Feb/2017 07:38:06] "GET /static/admin/css/changelists.css HTTP/1.1" 200 6117
+[06/Feb/2017 07:38:06] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 363
+[06/Feb/2017 07:38:06] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 6577
+[06/Feb/2017 07:38:06] "GET /static/admin/js/actions.js HTTP/1.1" 200 6501
+[06/Feb/2017 07:38:06] "GET /static/admin/js/urlify.js HTTP/1.1" 200 8186
+[06/Feb/2017 07:38:06] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1538
+[06/Feb/2017 07:38:06] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 258648
+[06/Feb/2017 07:38:06] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:38:06] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 128820
+[06/Feb/2017 07:38:07] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+[06/Feb/2017 07:38:09] "GET /admin/world/worldborder/246/change/ HTTP/1.1" 200 28140
+[06/Feb/2017 07:38:09] "GET /static/admin/js/change_form.js HTTP/1.1" 200 698
+[06/Feb/2017 07:38:09] "GET /static/admin/css/forms.css HTTP/1.1" 200 7750
+[06/Feb/2017 07:38:09] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 495
+[06/Feb/2017 07:38:09] "GET /static/admin/css/widgets.css HTTP/1.1" 200 10340
+[06/Feb/2017 07:38:09] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:38:09] "GET /static/admin/img/gis/move_vertex_on.svg HTTP/1.1" 200 1129
+[06/Feb/2017 07:38:34] "GET /admin/world/worldborder/ HTTP/1.1" 200 28009
+[06/Feb/2017 07:38:34] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:38:56] "GET /admin/world/worldborder/?p=1 HTTP/1.1" 200 30340
+[06/Feb/2017 07:38:56] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:39:03] "GET /admin/world/worldborder/?p=2 HTTP/1.1" 200 16290
+[06/Feb/2017 07:39:03] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:39:16] "GET /admin/world/worldborder/?p=1 HTTP/1.1" 200 30340
+[06/Feb/2017 07:39:16] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+[06/Feb/2017 07:39:24] "GET /admin/world/worldborder/94/change/?_changelist_filters=p%3D1 HTTP/1.1" 200 39177
+[06/Feb/2017 07:39:24] "GET /admin/jsi18n/ HTTP/1.1" 200 3217
+
